@@ -1,6 +1,6 @@
 import { concat } from 'ramda';
-import { TYPES as ACTION_TYPES } from '@app/actions/document-status';
 import { createReducer } from '@app/utils/helpers';
+import ACTION_TYPES from '@app/actions/document-status/types';
 
 const initialState = {
   totalRecords: 0,
@@ -24,8 +24,8 @@ const handleAppend = (
 });
 
 const handlers = {
-  [ACTION_TYPES.set]: handleSet,
   [ACTION_TYPES.append]: handleAppend,
+  [ACTION_TYPES.set]: handleSet,
 };
 
 export default createReducer(initialState, handlers);

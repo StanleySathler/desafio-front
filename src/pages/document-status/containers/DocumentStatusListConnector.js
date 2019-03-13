@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
-  fetchAll as fetchDocumentStatuses,
+  fetch as fetchDocumentStatuses,
   fetchMore as fetchMoreDocumentStatuses,
 } from '@app/actions/document-status';
 import List from './DocumentStatusList';

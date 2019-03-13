@@ -24,7 +24,7 @@ class DocumentStatusListContainer extends Component {
   }
 
   componentDidMount() {
-    this.fetchDocumentStatuses({
+    this.fetchMoreDocumentStatuses({
       pagination: { page: this.state.page },
     });
   }
@@ -79,9 +79,7 @@ class DocumentStatusListContainer extends Component {
     const filter = { name: text };
 
     this.fetchDocumentStatuses({
-      pagination: {
-        page,
-      },
+      pagination: { page },
       filter,
     });
 
@@ -143,7 +141,7 @@ class DocumentStatusListContainer extends Component {
 
 DocumentStatusListContainer.defaultProps = {
   documentStatuses: [],
-  fetchDocumentStatuses: noop,
+  fetchMoreDocumentStatuses: noop,
 };
 
 export default DocumentStatusListContainer;
