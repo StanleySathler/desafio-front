@@ -1,7 +1,11 @@
 import { compose, filter, includes, nth, splitEvery, where } from 'ramda';
 import api from '@app/api';
-import { createActionAppend, createActionSet } from '@app/actions/document-status/creators';
 import { isEmptyOrFalsy } from '@app/utils/helpers';
+import {
+  createActionAppend,
+  createActionSet,
+  fetchSingleDocumentStatusSuccess,
+} from '@app/actions/document-status/creators';
 
 /**
  * PoC for a future redesign
@@ -22,17 +26,27 @@ const buildPaginatedPayload = (totalRecords, records) => ({
   records,
 });
 
+function standardizeRecord(docSnapshot) {
+  return {
+    id: docSnapshot.id,
+    ...docSnapshot.data(),
+  };
+}
+
+const standardizeRecords = (querySnapshot) => {
+  let allRecords = [];
+
+  querySnapshot.forEach((docSnapshot) => {
+    allRecords.push(standardizeRecord(docSnapshot));
+  });
+
+  return allRecords;
+}
+
 export const fetch = (params) => (dispatch) => {
   const handleSuccess = (querySnapshot) => {
     const { pagination, filter: dataFilter } = params;
-    let allRecords = [];
-
-    querySnapshot.forEach((doc) => {
-      allRecords.push({
-        id: doc.id,
-        ...doc.data(),
-      });
-    });
+    let allRecords = standardizeRecords(querySnapshot);
 
     if (!isEmptyOrFalsy(filter))
       allRecords = filter(where({
@@ -60,14 +74,7 @@ export const fetch = (params) => (dispatch) => {
 export const fetchMore = (params) => (dispatch) => {
   const handleSuccess = (querySnapshot) => {
     const { pagination } = params;
-    const allRecords = [];
-
-    querySnapshot.forEach((doc) => {
-      allRecords.push({
-        id: doc.id,
-        ...doc.data(),
-      });
-    });
+    const allRecords = standardizeRecords(querySnapshot);
 
     const paginatedRecords = compose(
       nth(pagination.page - 1),
@@ -86,3 +93,16 @@ export const fetchMore = (params) => (dispatch) => {
     .get('document-statuses')
     .then(handleSuccess);
 };
+
+export function fetchById(id) {
+  return function(dispatch) {
+    const handleSuccess = (querySnapshot) => {
+      const documentStatus = standardizeRecord(querySnapshot);
+      dispatch(fetchSingleDocumentStatusSuccess(documentStatus))
+    };
+
+    return api
+      .getById('document-statuses', id)
+      .then(handleSuccess);
+  }
+}

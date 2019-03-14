@@ -9,6 +9,14 @@ const get = (resourceName) => (
     .get()
 );
 
+const getById = (resourceName, id) => (
+  getDatabase()
+    .collection(resourceName)
+    .doc(id)
+    .get()
+);
+
 export default {
   get,
+  getById,
 };

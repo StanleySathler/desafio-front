@@ -27,6 +27,10 @@ export const StyledHeaderRight = styled.div`
 
 export const StyledTitle = styled.h3``;
 
+export const StyledActions = styled.div`
+  justify-self: flex-end;
+`;
+
 export const StyledContent = styled.div`
   background-color: white;
   padding: 16px;

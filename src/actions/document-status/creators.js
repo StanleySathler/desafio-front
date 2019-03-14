@@ -9,3 +9,8 @@ export const createActionAppend = (payload) => ({
   type: TYPES.append,
   payload,
 });
+
+export const fetchSingleDocumentStatusSuccess = (payload) => ({
+  type: TYPES.fetchSingleDocumentStatusSuccess,
+  payload,
+});

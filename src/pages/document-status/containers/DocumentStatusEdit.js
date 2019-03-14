@@ -15,6 +15,12 @@ export default class DocumentStatusEdit extends PureComponent {
     this.renderFAB = this.renderFAB.bind(this);
   }
 
+  componentDidMount() {
+    const { match, fetchDocumentStatusById } = this.props;
+    const { id } = match.params;
+    fetchDocumentStatusById(id);
+  }
+
   handleBackClick() {
     const { history: routerHistory } = this.props;
     routerHistory.goBack();
@@ -38,6 +44,8 @@ export default class DocumentStatusEdit extends PureComponent {
   }
 
   render() {
+    const { documentStatus } = this.props;
+
     return (
       <Fragment>
         <ContentBox
@@ -55,7 +63,7 @@ export default class DocumentStatusEdit extends PureComponent {
                 label="Nome"
                 id="name"
                 isRequired
-                defaultValue="Andamento"
+                defaultValue={documentStatus.name}
               />
             </Grid.Unit>
 
@@ -67,7 +75,7 @@ export default class DocumentStatusEdit extends PureComponent {
                 label="Descrição"
                 id="description"
                 isRequired
-                defaultValue="Quando documento está sendo processado"
+                defaultValue={documentStatus.description}
               />
             </Grid.Unit>
           </Grid>
