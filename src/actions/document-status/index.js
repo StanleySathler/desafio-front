@@ -96,9 +96,11 @@ export const fetchMore = (params) => (dispatch) => {
 
 export function fetchById(id) {
   return function(dispatch) {
+    dispatch(fetchSingleDocumentStatusSuccess(null));
+
     const handleSuccess = (querySnapshot) => {
       const documentStatus = standardizeRecord(querySnapshot);
-      dispatch(fetchSingleDocumentStatusSuccess(documentStatus))
+      dispatch(fetchSingleDocumentStatusSuccess(documentStatus));
     };
 
     return api
