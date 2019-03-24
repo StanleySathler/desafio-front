@@ -16,7 +16,15 @@ const getById = (resourceName, id) => (
     .get()
 );
 
+const updateById = (resourceName, id, updatedData) => (
+  getDatabase()
+    .collection(resourceName)
+    .doc(id)
+    .update(updatedData)
+)
+
 export default {
   get,
   getById,
+  updateById,
 };

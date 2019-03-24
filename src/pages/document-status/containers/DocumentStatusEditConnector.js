@@ -1,7 +1,10 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { fetchById as fetchDocumentStatusById } from '@app/actions/document-status';
 import Edit from '@app/pages/document-status/components/DocumentStatusEdit';
+import {
+  fetchById as fetchDocumentStatusById,
+  updateById as updateDocumentStatusById,
+} from '@app/actions/document-status';
 
 const mapStateToProps = (state) => ({
   documentStatus: state.documentStatus,
@@ -10,6 +13,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => (
   bindActionCreators({
     fetchDocumentStatusById,
+    updateDocumentStatusById,
   }, dispatch)
 );
 

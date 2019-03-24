@@ -94,6 +94,10 @@ export const fetchMore = (params) => (dispatch) => {
     .then(handleSuccess);
 };
 
+export function redirectToListing(routerHistory) {
+  routerHistory.push('/');
+}
+
 export function fetchById(id) {
   return function(dispatch) {
     dispatch(fetchSingleDocumentStatusSuccess(null));
@@ -106,5 +110,13 @@ export function fetchById(id) {
     return api
       .getById('document-statuses', id)
       .then(handleSuccess);
+  }
+}
+
+export function updateById(id, { documentStatus, routerHistory }) {
+  return function() {
+    return api
+      .updateById('document-statuses', id, documentStatus)
+      .then(() => redirectToListing(routerHistory));
   }
 }

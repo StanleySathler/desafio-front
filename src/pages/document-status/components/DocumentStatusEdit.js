@@ -1,4 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
+import { pick } from 'ramda';
 import Grid from 'styled-components-grid';
 
 import FloatingActionButton from '@app/components/button/floating-action';
@@ -10,12 +11,24 @@ import FloppyDiskIcon from '@app/components/icon/floppy-disk';
 import { colors } from '@app/utils/ui';
 import { isEmptyOrFalsy } from '@app/utils/helpers';
 
+const FIELDS = {
+  name: 'name',
+  description: 'description',
+};
+
 export default class DocumentStatusEdit extends PureComponent {
   constructor(props) {
     super(props);
     this.handleBackClick = this.handleBackClick.bind(this);
+    this.handleSaveClick = this.handleSaveClick.bind(this);
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.renderFAB = this.renderFAB.bind(this);
     this.renderFields = this.renderFields.bind(this);
+
+    this.state = {
+      formData: {},
+    };
   }
 
   componentDidMount() {
@@ -24,9 +37,50 @@ export default class DocumentStatusEdit extends PureComponent {
     fetchDocumentStatusById(id);
   }
 
+  componentDidUpdate(prevProps) {
+    const prevDocumentStatus = prevProps.documentStatus;
+    const currDocumentStatus = this.props.documentStatus;
+    const didDocumentStatusChange = prevDocumentStatus !== currDocumentStatus;
+
+    if (didDocumentStatusChange) {
+      const fieldNames = [FIELDS.name, FIELDS.description];
+      const formData = pick(fieldNames, currDocumentStatus);
+      this.setState({ formData });
+    }
+  }
+
+  updateFormField(fieldName, value) {
+    const { formData } = this.state;
+    this.setState({
+      formData: { ...formData, [fieldName]: value },
+    });
+  }
+
   handleBackClick() {
     const { history: routerHistory } = this.props;
     routerHistory.goBack();
+  }
+
+  handleSaveClick() {
+    const { match, updateDocumentStatusById, history } = this.props;
+    const { id } = match.params;
+    const { formData } = this.state;
+    const payload = {
+      documentStatus: formData,
+      routerHistory: history,
+    };
+
+    updateDocumentStatusById(id, payload);
+  }
+
+  handleNameChange(event) {
+    const { value } = event.target;
+    this.updateFormField(FIELDS.name, value);
+  }
+
+  handleDescriptionChange(event) {
+    const { value } = event.target;
+    this.updateFormField(FIELDS.description, value);
   }
 
   renderFAB() {
@@ -37,7 +91,7 @@ export default class DocumentStatusEdit extends PureComponent {
     );
 
     return (
-      <Action>
+      <Action onClick={this.handleSaveClick}>
         <FloppyDiskIcon
           fill={colors.white}
           height="17"
@@ -51,7 +105,7 @@ export default class DocumentStatusEdit extends PureComponent {
   }
 
   renderFields() {
-    const { documentStatus } = this.props;
+    const { formData } = this.state;
 
     return (
       <Grid>
@@ -63,7 +117,8 @@ export default class DocumentStatusEdit extends PureComponent {
             label="Nome"
             id="name"
             isRequired
-            defaultValue={(documentStatus || {}).name}
+            value={formData.name || ''}
+            onChange={this.handleNameChange}
           />
         </Grid.Unit>
 
@@ -75,7 +130,8 @@ export default class DocumentStatusEdit extends PureComponent {
             label="Descrição"
             id="description"
             isRequired
-            defaultValue={(documentStatus || {}).description}
+            value={formData.description || ''}
+            onChange={this.handleDescriptionChange}
           />
         </Grid.Unit>
       </Grid>

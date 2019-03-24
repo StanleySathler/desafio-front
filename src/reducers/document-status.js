@@ -4,7 +4,7 @@ import ACTION_TYPES from '@app/actions/document-status/types';
 const initialState = {};
 
 function setDocumentStatus(prevState, { payload }) {
-  return payload;
+  return { ...payload };
 }
 
 const handlers = {
