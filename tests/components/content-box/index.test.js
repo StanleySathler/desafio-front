@@ -6,6 +6,7 @@ import {
   StyledActions,
   StyledContent,
   StyledTitle,
+  StyledHeaderRight,
 } from '@app/components/content-box/styled';
 
 describe('(Given) a ContentBox component', () => {
@@ -70,12 +71,12 @@ describe('(Given) a ContentBox component', () => {
 
     it('(Should) render the actions correctly', () => {
       expect(wrapper
-        .find(StyledActions)
+        .find(StyledHeaderRight)
         .children()
       ).toHaveLength(1);
 
       expect(wrapper
-        .find(StyledActions)
+        .find(StyledHeaderRight)
         .childAt(0),
       ).toMatchElement(action);
     });

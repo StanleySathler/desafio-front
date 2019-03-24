@@ -17,6 +17,14 @@ export const StyledHeader = styled.header`
   padding: 16px;
 `;
 
+export const StyledHeaderLeft = styled.div`
+  display: flex;
+`;
+
+export const StyledHeaderRight = styled.div`
+  justify-self: flex-end;
+`;
+
 export const StyledTitle = styled.h3``;
 
 export const StyledActions = styled.div`
@@ -26,4 +34,14 @@ export const StyledActions = styled.div`
 export const StyledContent = styled.div`
   background-color: white;
   padding: 16px;
+`;
+
+export const StyledBackButton = styled.button.attrs({
+  type: 'button',
+})`
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin-right: 10px;
+  padding: 0 16px 0 0;
 `;
