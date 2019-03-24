@@ -120,3 +120,11 @@ export function updateById(id, { documentStatus, routerHistory }) {
       .then(() => redirectToListing(routerHistory));
   }
 }
+
+export function create({ documentStatus, routerHistory }) {
+  return function() {
+    return api
+      .create('document-statuses', documentStatus)
+      .then(() => redirectToListing(routerHistory))
+  }
+}

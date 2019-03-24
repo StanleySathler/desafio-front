@@ -23,8 +23,15 @@ const updateById = (resourceName, id, updatedData) => (
     .update(updatedData)
 )
 
+const create = (resourceName, data) => (
+  getDatabase()
+    .collection(resourceName)
+    .add(data)
+)
+
 export default {
   get,
   getById,
   updateById,
+  create,
 };
