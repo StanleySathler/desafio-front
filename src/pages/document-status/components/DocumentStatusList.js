@@ -19,6 +19,7 @@ class DocumentStatusListContainer extends Component {
     this.handleLoadMoreClick = this.handleLoadMoreClick.bind(this);
     this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
     this.handleItemClick = this.handleItemClick.bind(this);
+    this.handleActionClick = this.handleActionClick.bind(this);
 
     this.state = {
       page: 1,
@@ -98,6 +99,11 @@ class DocumentStatusListContainer extends Component {
     });
   }
 
+  handleActionClick() {
+    const { history: routerHistory } = this.props;
+    routerHistory.push('/new')
+  }
+
   renderSearchbar() {
     return (
       <Searchbar
@@ -136,7 +142,7 @@ class DocumentStatusListContainer extends Component {
     );
 
     return (
-      <Action>
+      <Action onClick={this.handleActionClick}>
         <PlusIcon
           height="17"
           fill={colors.white}

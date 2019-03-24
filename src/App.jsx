@@ -6,8 +6,9 @@ import {
 } from 'react-router-dom';
 import Header from '@app/components/header';
 import Content from '@app/components/content';
-import DocumentStatusListPage from '@app/pages/document-status/containers/DocumentStatusListConnector';
-import DocumentStatusEditPage from '@app/pages/document-status/containers/DocumentStatusEditConnector';
+import DocumentStatusCreatePage from '@app/pages/document-status/containers/DocumentStatusCreate';
+import DocumentStatusListPage from '@app/pages/document-status/containers/DocumentStatusList';
+import DocumentStatusEditPage from '@app/pages/document-status/containers/DocumentStatusEdit';
 import appStateStore from '@app/store';
 
 const EntryApp = () => (
@@ -19,6 +20,7 @@ const EntryApp = () => (
         <Content>
           <Route exact path="/" component={DocumentStatusListPage} />
           <Route exact path="/edit/:id" component={DocumentStatusEditPage} />
+          <Route exact path="/new" component={DocumentStatusCreatePage} />
         </Content>
       </Fragment>
     </Router>
